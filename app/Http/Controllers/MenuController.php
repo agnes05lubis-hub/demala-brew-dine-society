@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Menu;
+use Illuminate\Http\Request;
+
+class MenuController extends Controller
+{
+    public function index()
+    {
+        return view('menu');
+    }
+
+    public function show(Menu $menu)
+    {
+        return view('menu.show', compact('menu'));
+    }
+}
