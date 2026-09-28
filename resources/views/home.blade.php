@@ -39,7 +39,7 @@
                         Lihat Menu Kami
                     </a>
 
-                    <a href="{{ url('/kontak') }}" class="btn dbds-btn-outline">
+                   <a href="{{ url('/kontak') }}#reservasi" class="btn dbds-btn-outline">
                         Reservasi Meja
                     </a>
                 </div>
@@ -368,101 +368,76 @@
     </div>
 </section>
 
-
-<!-- =========================================================
-     TESTIMONI
+ <!-- =========================================================
+     TESTIMONI (ULASAN YANG SUDAH DITERIMA ADMIN)
 ========================================================= -->
+@php
+    $approvedReviews = \App\Models\Review::approved()->latest()->take(6)->get();
+@endphp
+
 <section class="dbds-section-alt">
     <div class="container">
 
         <div class="text-center mb-5">
-
-            <p class="dbds-eyebrow">
-                Kata Mereka
-            </p>
-
-            <h2 class="dbds-section-title">
-                Cerita dari Meja Demala
-            </h2>
-
+            <p class="dbds-eyebrow">Kata Mereka</p>
+            <h2 class="dbds-section-title">Cerita dari Meja Demala</h2>
         </div>
-
 
         <div class="row gy-4">
 
-            <!-- TESTIMONI 1 -->
-            <div class="col-md-4">
+            @forelse($approvedReviews as $r)
 
-                <div class="dbds-value-card">
+                <div class="col-md-4">
+                    <div class="dbds-value-card">
 
-                    <div class="mb-3">
-                        <i class="bi bi-quote"
-                           style="font-size: 2rem; color: var(--brass);">
-                        </i>
+                        <div class="mb-3">
+                            <i class="bi bi-quote" style="font-size: 2rem; color: var(--brass);"></i>
+                        </div>
+
+                        <p>"{{ \Illuminate\Support\Str::limit($r->message, 160) }}"</p>
+
+                        <div style="color: var(--brass);">
+                            {{ str_repeat('★', $r->rating ?? 5) }}
+                        </div>
+
+                        <h5 class="mt-3 mb-0">{{ $r->name }}</h5>
+
                     </div>
-
-                    <p>
-                        "Tempatnya nyaman banget untuk ngobrol
-                        lama sambil menikmati kopi."
-                    </p>
-
-                    <h5 class="mt-4 mb-0">
-                        Pelanggan Demala
-                    </h5>
-
                 </div>
 
-            </div>
+            @empty
 
-
-            <!-- TESTIMONI 2 -->
-            <div class="col-md-4">
-
-                <div class="dbds-value-card">
-
-                    <div class="mb-3">
-                        <i class="bi bi-quote"
-                           style="font-size: 2rem; color: var(--brass);">
-                        </i>
+                <div class="col-md-4">
+                    <div class="dbds-value-card">
+                        <div class="mb-3">
+                            <i class="bi bi-quote" style="font-size: 2rem; color: var(--brass);"></i>
+                        </div>
+                        <p>"Tempatnya nyaman banget untuk ngobrol lama sambil menikmati kopi."</p>
+                        <h5 class="mt-4 mb-0">Pelanggan Demala</h5>
                     </div>
-
-                    <p>
-                        "Suasananya tenang dan cocok untuk
-                        nongkrong maupun mengerjakan tugas."
-                    </p>
-
-                    <h5 class="mt-4 mb-0">
-                        Pelanggan Demala
-                    </h5>
-
                 </div>
 
-            </div>
-
-
-            <!-- TESTIMONI 3 -->
-            <div class="col-md-4">
-
-                <div class="dbds-value-card">
-
-                    <div class="mb-3">
-                        <i class="bi bi-quote"
-                           style="font-size: 2rem; color: var(--brass);">
-                        </i>
+                <div class="col-md-4">
+                    <div class="dbds-value-card">
+                        <div class="mb-3">
+                            <i class="bi bi-quote" style="font-size: 2rem; color: var(--brass);"></i>
+                        </div>
+                        <p>"Suasananya tenang dan cocok untuk nongkrong maupun mengerjakan tugas."</p>
+                        <h5 class="mt-4 mb-0">Pelanggan Demala</h5>
                     </div>
-
-                    <p>
-                        "Kopi dan makanannya cocok untuk
-                        menemani waktu santai bersama teman."
-                    </p>
-
-                    <h5 class="mt-4 mb-0">
-                        Pelanggan Demala
-                    </h5>
-
                 </div>
 
-            </div>
+                <div class="col-md-4">
+                    <div class="dbds-value-card">
+                        <div class="mb-3">
+                            <i class="bi bi-quote" style="font-size: 2rem; color: var(--brass);"></i>
+                        </div>
+                        <p>"Kopi dan makanannya cocok untuk menemani waktu santai bersama teman."</p>
+                        <h5 class="mt-4 mb-0">Pelanggan Demala</h5>
+                    </div>
+                </div>
+
+            @endforelse
 
         </div>
 

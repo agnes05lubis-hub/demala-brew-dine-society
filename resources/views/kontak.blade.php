@@ -419,6 +419,94 @@
         </div>
     </section>
 
+        {{-- =========================================================
+         FORM RESERVASI MEJA
+    ========================================================== --}}
+    <section class="dbds-contact-main" id="reservasi">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+
+                    <div class="dbds-form-card">
+
+                        <div class="dbds-form-heading">
+                            <div>
+                                <p class="dbds-eyebrow">Reservasi</p>
+                                <h3>Pesan Meja</h3>
+                            </div>
+                            <div class="dbds-form-mark">D</div>
+                        </div>
+
+                        <p class="dbds-form-description">
+                            Isi data berikut dan tim Demala akan mengonfirmasi reservasi kamu.
+                        </p>
+
+                        @if(session('reservation_success'))
+                            <div class="alert alert-success">{{ session('reservation_success') }}</div>
+                        @endif
+
+                        <form action="{{ route('reservation.store') }}" method="POST">
+                            @csrf
+
+                            <div class="row g-3">
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Nama Lengkap</label>
+                                    <input type="text" name="name" value="{{ old('name', auth()->user()->name ?? '') }}"
+                                           class="form-control dbds-input" placeholder="Nama Anda" required>
+                                    @error('name')<small class="text-danger">{{ $message }}</small>@enderror
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">No. WhatsApp</label>
+                                    <input type="text" name="phone" value="{{ old('phone') }}"
+                                           class="form-control dbds-input" placeholder="08xxxxxxxxxx" required>
+                                    @error('phone')<small class="text-danger">{{ $message }}</small>@enderror
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Tanggal</label>
+                                    <input type="date" name="reservation_date" value="{{ old('reservation_date') }}"
+                                           min="{{ date('Y-m-d') }}" class="form-control dbds-input" required>
+                                    @error('reservation_date')<small class="text-danger">{{ $message }}</small>@enderror
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Jam</label>
+                                    <input type="time" name="reservation_time" value="{{ old('reservation_time') }}"
+                                           class="form-control dbds-input" required>
+                                    @error('reservation_time')<small class="text-danger">{{ $message }}</small>@enderror
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Jumlah Orang</label>
+                                    <input type="number" name="guests" value="{{ old('guests', 2) }}" min="1" max="50"
+                                           class="form-control dbds-input" required>
+                                    @error('guests')<small class="text-danger">{{ $message }}</small>@enderror
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label">Catatan (opsional)</label>
+                                    <textarea name="notes" rows="3" class="form-control dbds-input"
+                                              placeholder="Contoh: dekat colokan, ada anak kecil, acara ulang tahun">{{ old('notes') }}</textarea>
+                                </div>
+
+                                <div class="col-12">
+                                    <button type="submit" class="btn dbds-btn-brass dbds-submit-btn">
+                                        Kirim Reservasi
+                                        <i class="bi bi-arrow-right"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
 
     {{-- =========================================================
          MAP

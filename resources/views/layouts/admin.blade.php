@@ -141,6 +141,56 @@
 
     @endif
 
+        <!-- RESERVASI -->
+
+    <div class="demala-admin-section">
+        Reservasi
+    </div>
+
+    <a href="{{ route('admin.reservations.index') }}"
+       class="demala-admin-link {{ request()->routeIs('admin.reservations.*') ? 'active' : '' }}">
+
+        <i class="bi bi-calendar-check"></i>
+
+        <span>Reservasi Meja</span>
+
+        @php $pendingReservationCount = \App\Models\Reservation::where('status', 'pending')->count(); @endphp
+
+        @if($pendingReservationCount > 0)
+            <span class="demala-admin-count">{{ $pendingReservationCount }}</span>
+        @endif
+
+    </a>
+
+        <!-- ULASAN & USER -->
+
+    <div class="demala-admin-section">
+        Ulasan & User
+    </div>
+
+    <a href="{{ route('admin.reviews.index') }}"
+       class="demala-admin-link {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}">
+
+        <i class="bi bi-chat-heart"></i>
+
+        <span>Ulasan</span>
+
+        @php $pendingReviewCount = \App\Models\Review::where('status', 'pending')->count(); @endphp
+
+        @if($pendingReviewCount > 0)
+            <span class="demala-admin-count">{{ $pendingReviewCount }}</span>
+        @endif
+
+    </a>
+
+    <a href="{{ route('admin.users.index') }}"
+       class="demala-admin-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+
+        <i class="bi bi-people"></i>
+
+        <span>User Baru</span>
+
+    </a>
 
     <!-- WEBSITE -->
 
