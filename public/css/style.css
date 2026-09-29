@@ -332,7 +332,6 @@ img { max-width: 100%; display: block; }
     color: var(--brass-light);
 }
 
-.dbds-menu-card-body h5 { margin-bottom: 0.4rem; }
 
 .dbds-menu-card-body p {
     color: var(--text-muted);
@@ -4005,6 +4004,568 @@ textarea.dbds-input {
   .adm-page .rev{flex-direction:column;align-items:flex-start}
 }
 
+
+
+/* =========================================================
+   DEMALA ADMIN — PESANAN
+   Tampilan operasional pesanan
+========================================================= */
+
+.orders-header {
+    margin-bottom: 22px;
+}
+
+.orders-eyebrow {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--brass);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.orders-header h2,
+.order-detail-header h2 {
+    margin: 0;
+    color: var(--navy);
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.7rem, 3vw, 2.15rem);
+}
+
+.orders-header p,
+.order-detail-header p {
+    margin: 5px 0 0;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+}
+
+/* STATUS TABS */
+
+.adm-page .tabs {
+    gap: 9px;
+    margin-bottom: 22px;
+}
+
+.adm-page .tabs a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 15px;
+    border: 1px solid rgba(20, 33, 61, 0.10);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--navy);
+    font-size: 0.78rem;
+    font-weight: 700;
+    box-shadow: 0 3px 12px rgba(20, 33, 61, 0.035);
+    transition: 0.2s ease;
+}
+
+.adm-page .tabs a span {
+    min-width: 20px;
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: var(--cream-warm);
+    color: var(--navy);
+    font-size: 0.68rem;
+    text-align: center;
+}
+
+.adm-page .tabs a:hover {
+    transform: translateY(-1px);
+    border-color: rgba(201, 162, 75, 0.45);
+}
+
+.adm-page .tabs a.on {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(20, 33, 61, 0.12);
+}
+
+.adm-page .tabs a.on span {
+    background: rgba(255,255,255,0.13);
+    color: var(--brass-light);
+}
+
+/* PESANAN CARD */
+
+.order-card {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 14px;
+    padding: 22px 24px;
+    background: #fff;
+    border: 1px solid rgba(20, 33, 61, 0.07);
+    border-radius: 18px;
+    box-shadow: 0 7px 24px rgba(20, 33, 61, 0.055);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(201, 162, 75, 0.28);
+    box-shadow: 0 13px 32px rgba(20, 33, 61, 0.09);
+}
+
+.order-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.order-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.order-number {
+    display: block;
+    margin-bottom: 3px;
+    color: var(--brass);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.order-top h3 {
+    margin: 0;
+    color: var(--navy);
+    font-family: 'Fraunces', serif;
+    font-size: 1.22rem;
+}
+
+.order-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 6px 11px;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+.status-pending {
+    background: #fff4d9;
+    color: #8a6412;
+}
+
+.status-confirmed {
+    background: #e9f0fb;
+    color: #315a92;
+}
+
+.status-preparing {
+    background: #eee9fb;
+    color: #66519a;
+}
+
+.status-ready {
+    background: #e5f4eb;
+    color: #27704a;
+}
+
+.status-completed {
+    background: #e1f2e8;
+    color: #17643f;
+}
+
+.status-cancelled {
+    background: #f9e3e0;
+    color: #a63b31;
+}
+
+.order-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin-top: 12px;
+    color: var(--text-muted);
+    font-size: 0.76rem;
+}
+
+.order-info span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.order-info i {
+    color: var(--brass);
+}
+
+.order-items {
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(20, 33, 61, 0.07);
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 5px 0;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.order-item strong {
+    color: var(--navy);
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.order-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 9px;
+    padding-top: 11px;
+    border-top: 1px dashed rgba(20, 33, 61, 0.13);
+}
+
+.order-total span {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+.order-total strong {
+    color: var(--navy);
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+}
+
+.order-actions {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
+    align-self: flex-end;
+}
+
+.order-actions form {
+    margin: 0;
+}
+
+.btn-view,
+.btn-next,
+.btn-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 38px;
+    border-radius: 9px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.74rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.btn-view {
+    padding: 8px 13px;
+    border: 1px solid rgba(20, 33, 61, 0.12);
+    background: #fff;
+    color: var(--navy);
+}
+
+.btn-view:hover {
+    border-color: var(--brass);
+    background: var(--cream);
+    color: var(--navy);
+    transform: translateY(-1px);
+}
+
+.btn-next {
+    padding: 8px 14px;
+    border: 1px solid var(--brass);
+    background: var(--brass);
+    color: var(--navy-deep);
+}
+
+.btn-next:hover {
+    border-color: var(--brass-light);
+    background: var(--brass-light);
+    color: var(--navy-deep);
+    transform: translateY(-1px);
+    box-shadow: 0 7px 18px rgba(201, 162, 75, 0.18);
+}
+
+.btn-delete {
+    width: 38px;
+    padding: 8px;
+    border: 1px solid #ead0cc;
+    background: #fff;
+    color: #b0473c;
+}
+
+.btn-delete:hover {
+    border-color: #c96a60;
+    background: #faecea;
+    color: #a63b31;
+    transform: translateY(-1px);
+}
+
+/* DETAIL PESANAN */
+
+.order-detail-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding: 24px;
+    background: #fff;
+    border: 1px solid rgba(20, 33, 61, 0.07);
+    border-radius: 18px;
+    box-shadow: 0 7px 24px rgba(20, 33, 61, 0.055);
+}
+
+.order-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.order-detail-box {
+    margin-bottom: 14px;
+    padding: 22px 24px;
+    background: #fff;
+    border: 1px solid rgba(20, 33, 61, 0.07);
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(20, 33, 61, 0.045);
+}
+
+.order-detail-grid .order-detail-box {
+    margin-bottom: 0;
+}
+
+.detail-box-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    color: var(--brass);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.detail-box-title i {
+    font-size: 0.9rem;
+}
+
+.order-detail-box h3 {
+    margin: 0 0 7px;
+    color: var(--navy);
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+}
+
+.order-detail-box > p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+}
+
+.detail-items {
+    border-top: 1px solid rgba(20, 33, 61, 0.07);
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 13px 0;
+    border-bottom: 1px dashed rgba(20, 33, 61, 0.12);
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-item-info {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-width: 0;
+}
+
+.detail-item-info > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.detail-item-info strong {
+    color: var(--navy);
+    font-size: 0.85rem;
+}
+
+.detail-item-info span {
+    color: var(--text-muted);
+    font-size: 0.74rem;
+}
+
+.detail-item-info small {
+    color: #8a6a2a;
+    font-size: 0.7rem;
+}
+
+.detail-item > strong {
+    color: var(--navy);
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.detail-menu-image {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 10px;
+    background: var(--cream);
+}
+
+.detail-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 5px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(20, 33, 61, 0.10);
+}
+
+.detail-total span {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.detail-total strong {
+    color: var(--navy);
+    font-family: 'Fraunces', serif;
+    font-size: 1.2rem;
+}
+
+.customer-note {
+    padding: 13px 15px;
+    border-left: 3px solid var(--brass);
+    border-radius: 8px;
+    background: var(--cream);
+    color: var(--text-muted) !important;
+    line-height: 1.6;
+}
+
+.status-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-form select {
+    min-height: 40px;
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid rgba(20, 33, 61, 0.13);
+    border-radius: 9px;
+    background: #fff;
+    color: var(--navy);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.8rem;
+}
+
+.status-form select:focus {
+    outline: none;
+    border-color: var(--brass);
+    box-shadow: 0 0 0 3px rgba(201, 162, 75, 0.13);
+}
+
+/* PESANAN RESPONSIVE */
+
+@media (max-width: 767px) {
+    .order-card {
+        flex-direction: column;
+        padding: 19px;
+    }
+
+    .order-actions {
+        align-items: stretch;
+        justify-content: flex-start;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .order-actions .btn-view,
+    .order-actions .btn-next {
+        flex: 1;
+    }
+
+    .order-detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .order-detail-header {
+        flex-direction: column;
+    }
+
+    .status-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .status-form .btn-next {
+        width: 100%;
+    }
+}
+
+@media (max-width: 575px) {
+    .order-top {
+        flex-direction: column;
+        gap: 9px;
+    }
+
+    .order-status {
+        align-self: flex-start;
+    }
+
+    .order-info {
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .order-item,
+    .detail-item {
+        align-items: flex-start;
+    }
+
+    .order-item strong,
+    .detail-item > strong {
+        text-align: right;
+    }
+
+    .order-detail-box,
+    .order-detail-header {
+        padding: 18px;
+    }
+}
+
 /* ===== DASHBOARD: KURVA ===== */
 .demala-chart-card{background:#fff;border-radius:18px;padding:22px;height:320px;box-shadow:0 4px 14px rgba(11,27,51,.06)}
 
@@ -4060,3 +4621,675 @@ textarea.dbds-input {
 .dbds-auth-rules li i{font-size:13px}
 .dbds-auth-rules li.ok{color:#2e7d5b;font-weight:600}
 @media(max-width:480px){.dbds-auth-rules{grid-template-columns:1fr}}
+
+/* =========================================================
+   DEMALA ADMIN — TAMBAHAN LANGKAH 1
+   Tempel di PALING BAWAH public/css/style.css
+========================================================= */
+
+/* Menu sidebar yang belum aktif ("Segera") */
+.demala-admin-link-soon {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.demala-admin-link-soon:hover {
+    background-color: transparent;
+    color: rgba(255,255,255,0.72);
+    transform: none;
+}
+
+.demala-admin-link-soon:hover i {
+    color: rgba(255,255,255,0.55);
+}
+
+/* Kartu statistik: angka uang & keterangan kecil */
+.demala-stat-money {
+    font-size: 1.55rem;
+}
+
+.demala-stat-of {
+    color: var(--text-muted);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.demala-stat-hint {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+}
+
+/* Bintang ulasan */
+.demala-stars {
+    margin-left: 4px;
+    color: var(--brass);
+}
+
+/* Panel reservasi menyamakan tinggi dengan grafik */
+.demala-panel-fill {
+    min-height: 320px;
+}
+
+/* Jarak antar baris section yang memakai .row */
+.row.demala-dashboard-section {
+    margin-top: 20px;
+}
+
+/* Tombol dashboard user */
+.demala-user-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.demala-dashboard-menu-btn.demala-btn-outline {
+    background-color: transparent;
+    border-color: var(--navy);
+    color: var(--navy) !important;
+}
+
+.demala-dashboard-menu-btn.demala-btn-outline:hover {
+    background-color: var(--navy);
+    border-color: var(--navy);
+    color: #fff !important;
+}
+/* =========================================================
+   DEMALA — PROFIL (admin & user)
+   Tempel di PALING BAWAH public/css/style.css
+========================================================= */
+
+/* Foto di avatar sidebar */
+.demala-admin-avatar {
+    overflow: hidden;
+}
+
+.demala-admin-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Blok user di sidebar bisa diklik */
+.demala-admin-user-link {
+    text-decoration: none;
+    border-radius: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.demala-admin-user-link:hover {
+    background-color: rgba(255,255,255,0.07);
+}
+
+/* Kartu profil */
+.demala-profile-card {
+    padding: 26px;
+    background: #fff;
+    border: 1px solid rgba(20,33,61,0.07);
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(20,33,61,0.05);
+}
+
+.demala-profile-title {
+    margin-bottom: 18px;
+    font-size: 1.15rem;
+}
+
+.demala-profile-photo {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 3px solid var(--brass);
+    background: var(--navy);
+    color: var(--brass-light);
+    font-family: 'Fraunces', serif;
+    font-size: 3rem;
+}
+
+.demala-profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.demala-profile-name {
+    margin-bottom: 2px;
+    font-size: 1.2rem;
+}
+
+.demala-profile-role {
+    color: var(--brass);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.demala-profile-email {
+    margin-top: 6px;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    word-break: break-all;
+}
+
+.demala-profile-card .form-label {
+    color: var(--navy);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.demala-profile-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 22px;
+    border: 1px solid var(--brass);
+    border-radius: 999px;
+    background: var(--brass);
+    color: var(--navy-deep);
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.demala-profile-btn:hover {
+    background: var(--brass-light);
+    transform: translateY(-2px);
+}
+
+/* Tombol profil di topbar (kanan atas) */
+.demala-topbar-profile {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 4px 14px 4px 4px;
+    border: 1px solid rgba(20,33,61,0.10);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--navy);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.demala-topbar-profile:hover {
+    border-color: var(--brass);
+    box-shadow: 0 6px 16px rgba(20,33,61,0.08);
+    color: var(--navy);
+}
+
+.demala-topbar-avatar {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 50%;
+    background: var(--brass);
+    color: var(--navy-deep);
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+}
+
+.demala-topbar-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media (max-width: 575px) {
+    .demala-topbar-name { display: none; }
+    .demala-topbar-profile { padding-right: 4px; }
+}
+
+/* =========================================================
+   DEMALA — PENGGUNA & KARYAWAN
+   Tempel di PALING BAWAH public/css/style.css
+========================================================= */
+
+.demala-user-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+}
+
+.demala-user-avatar {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--brass-light);
+    font-size: 0.85rem;
+}
+
+.demala-user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.demala-pill {
+    display: inline-block;
+    padding: 3px 11px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.demala-pill-navy  { background: var(--navy);  color: #fff; }
+.demala-pill-gold  { background: #f6ecd2;      color: #8a6412; }
+.demala-pill-green { background: #dff3e9;      color: #17724b; }
+.demala-pill-red   { background: #f9dcd8;      color: #a3271b; }
+
+/* tabel admin boleh digulir di layar kecil */
+.adm-page { overflow-x: auto; }
+
+
+
+
+/* =========================================================
+   DEMALA — PREMIUM CUSTOMER REVIEWS
+   Compact, elegant & mobile friendly
+========================================================= */
+
+.dbds-review-section {
+    padding: 4.5rem 0;
+    background:
+        radial-gradient(circle at 8% 15%, rgba(201,162,75,0.07), transparent 25%),
+        radial-gradient(circle at 92% 80%, rgba(20,33,61,0.045), transparent 28%),
+        var(--cream);
+}
+
+/* HEADER */
+.dbds-review-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.dbds-review-subtitle {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 0.92rem;
+}
+
+/* RATING SUMMARY */
+.dbds-rating-summary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.78);
+    border: 1px solid rgba(20,33,61,0.07);
+    border-radius: 14px;
+    box-shadow: 0 8px 22px rgba(20,33,61,0.05);
+    flex-shrink: 0;
+}
+
+.dbds-rating-number {
+    font-family: 'Fraunces', serif;
+    font-size: 1.8rem;
+    line-height: 1;
+    color: var(--navy);
+    font-weight: 600;
+}
+
+.dbds-rating-summary span {
+    display: block;
+    margin-top: 2px;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+}
+
+.dbds-stars,
+.dbds-review-stars {
+    display: flex;
+    gap: 3px;
+    color: var(--brass);
+}
+
+.dbds-stars {
+    font-size: 0.72rem;
+}
+
+.dbds-review-stars {
+    margin-top: 4px;
+    font-size: 0.72rem;
+}
+
+/* SUCCESS */
+.dbds-review-success {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+    padding: 11px 16px;
+    border-radius: 10px;
+    background: #edf8f0;
+    border: 1px solid #ccebd4;
+    color: #27643a;
+    font-size: 0.82rem;
+}
+
+/* REVIEW CARDS */
+.dbds-review-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 2rem;
+}
+
+.dbds-review-card {
+    position: relative;
+    min-width: 0;
+    padding: 1.35rem 1.35rem 1.3rem;
+    background: rgba(255,255,255,0.96);
+    border: 1px solid rgba(20,33,61,0.07);
+    border-radius: 16px;
+    box-shadow: 0 8px 26px rgba(20,33,61,0.055);
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.dbds-review-card::after {
+    content: "“";
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    color: rgba(201,162,75,0.18);
+    font-family: 'Fraunces', serif;
+    font-size: 3.2rem;
+    line-height: 1;
+}
+
+.dbds-review-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(201,162,75,0.28);
+    box-shadow: 0 16px 34px rgba(20,33,61,0.10);
+}
+
+.dbds-review-card-top {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.dbds-review-avatar {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--brass-light);
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.dbds-review-card h5 {
+    margin: 0;
+    font-size: 0.92rem;
+}
+
+.dbds-review-message {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.84rem;
+    line-height: 1.7;
+}
+
+/* EMPTY STATE */
+.dbds-review-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 2rem;
+    padding: 1.2rem;
+    border: 1px dashed rgba(20,33,61,0.15);
+    border-radius: 14px;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.55);
+}
+
+.dbds-review-empty i {
+    color: var(--brass);
+    font-size: 1.15rem;
+}
+
+.dbds-review-empty p {
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+/* FORM WRAPPER */
+.dbds-review-form-wrap {
+    display: grid;
+    grid-template-columns: 0.8fr 1.6fr;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 1.8rem 2rem;
+    background: var(--navy-deep);
+    border-radius: 20px;
+    box-shadow: 0 16px 38px rgba(20,33,61,0.12);
+}
+
+.dbds-review-form-intro {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.dbds-review-form-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(201,162,75,0.13);
+    border: 1px solid rgba(201,162,75,0.3);
+    color: var(--brass-light);
+}
+
+.dbds-review-form-intro h3 {
+    margin: 0 0 4px;
+    color: #fff;
+    font-size: 1.25rem;
+}
+
+.dbds-review-form-intro p:last-child {
+    margin: 0;
+    color: rgba(255,255,255,0.62);
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
+.dbds-review-form-intro .dbds-eyebrow {
+    color: var(--brass-light);
+    font-size: 0.72rem;
+}
+
+/* FORM */
+.dbds-review-form {
+    min-width: 0;
+}
+
+.dbds-review-form-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.dbds-review-field label {
+    display: block;
+    margin-bottom: 6px;
+    color: rgba(255,255,255,0.78);
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+.dbds-review-input {
+    width: 100%;
+    border: 1px solid rgba(255,255,255,0.13);
+    border-radius: 9px;
+    padding: 9px 11px;
+    background: rgba(255,255,255,0.07);
+    color: #fff;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.8rem;
+    outline: none;
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.dbds-review-input::placeholder {
+    color: rgba(255,255,255,0.38);
+}
+
+.dbds-review-input:focus {
+    border-color: var(--brass);
+    background: rgba(255,255,255,0.1);
+    box-shadow: 0 0 0 3px rgba(201,162,75,0.13);
+}
+
+.dbds-review-textarea {
+    resize: vertical;
+    min-height: 76px;
+}
+
+.dbds-star-input {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 2px;
+    padding-top: 7px;
+}
+
+.dbds-star-input input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.dbds-star-input label {
+    margin: 0;
+    padding: 0;
+    color: rgba(255,255,255,0.28);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.dbds-star-input label:hover,
+.dbds-star-input label:hover ~ label,
+.dbds-star-input input:checked ~ label {
+    color: var(--brass-light);
+}
+
+.dbds-star-input label:hover {
+    transform: translateY(-2px);
+}
+
+.dbds-review-submit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 14px;
+}
+
+.dbds-review-submit small {
+    color: rgba(255,255,255,0.45);
+    font-size: 0.68rem;
+}
+
+.dbds-review-submit small i {
+    color: var(--brass-light);
+    margin-right: 3px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 991px) {
+    .dbds-review-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dbds-review-form-wrap {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .dbds-review-section {
+        padding: 3.5rem 0;
+    }
+
+    .dbds-review-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .dbds-rating-summary {
+        align-self: flex-start;
+    }
+
+    .dbds-review-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dbds-review-form-wrap {
+        padding: 1.4rem;
+        border-radius: 16px;
+    }
+
+    .dbds-review-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .dbds-review-submit {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .dbds-review-submit .dbds-btn-brass {
+        width: 100%;
+        justify-content: center;
+    }
+}
+

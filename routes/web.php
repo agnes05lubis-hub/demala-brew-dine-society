@@ -12,8 +12,10 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\Admin\AdminReviewController;
 use App\Http\Controllers\Admin\AdminReservationController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\AdminOrderController;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ProfileController;
 
-// ===== HALAMAN PUBLIC (Tidak perlu login) =====
 
 Route::get('/', function () {
     return view('home');
@@ -32,74 +34,84 @@ Route::post('/kontak', [ContactController::class, 'store'])->name('kontak.store'
 Route::post('/ulasan', [ReviewController::class, 'store'])->name('review.store');
 Route::post('/reservasi', [ReservationController::class, 'store'])->name('reservation.store');
 
-// ===== MENU PUBLIC =====
 Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
 Route::get('/menu/{menu}', [MenuController::class, 'show'])->name('menu.show');
 
-// ===== LOGIN ROUTES =====
 
-// Login untuk user/pelanggan biasa — ini yang dipakai tombol "Login" di navbar
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 
-// Route rahasia khusus admin. Tampilannya SAMA PERSIS dengan /login
-// (pakai controller & view yang sama), cuma URL-nya beda dan tidak ada
-// link ke sini di halaman manapun — hanya bisa diakses kalau diketik manual.
+
 Route::get('/admin-demala', [LoginController::class, 'showLoginForm'])->name('admin.login');
 
-// Kedua route di atas submit ke sini. Redirect tujuan ditentukan otomatis
-// berdasarkan role user (lihat LoginController@login), bukan berdasarkan
-// dari URL mana dia login.
+
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// ===== DAFTAR USER BARU =====
+
 Route::get('/daftar', [RegisterController::class, 'create'])->name('register');
 Route::post('/daftar', [RegisterController::class, 'store'])->name('register.store');
 
-// ===== PROTECTED ROUTES =====
+
 Route::middleware('auth')->group(function () {
 
-    // Dashboard untuk user biasa
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return Auth::user()->role === 'admin'
+            ? redirect()->route('admin.dashboard')
+            : view('dashboard');
     })->name('dashboard');
 
+    Route::get('/profil', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profil', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profil/password', [ProfileController::class, 'password'])->name('profile.password');
+    Route::delete('/profil/foto', [ProfileController::class, 'removePhoto'])->name('profile.photo.remove');
 
-    // ===== ADMIN ROUTES =====
-    // HANYA ADMIN yang boleh masuk ke sini (middleware 'admin' = IsAdmin)
+
     Route::middleware('admin')
         ->prefix('admin')
         ->name('admin.')
         ->group(function () {
 
-            // Dashboard khusus admin -> /admin/dashboard
             Route::get('dashboard', function () {
-                return view('dashboard');
+                return view('admin.dashboard');
             })->name('dashboard');
 
-            // Tambah, lihat, edit, hapus MENU
             Route::resource('menu', AdminMenuController::class);
 
-            // Kelola KATEGORI
             Route::get('categories', [CategoryPhotoController::class, 'index'])
                 ->name('categories.index');
 
             Route::post('categories/{groupName}', [CategoryPhotoController::class, 'update'])
                 ->name('categories.update');
 
-            // Ulasan masuk
             Route::get('ulasan', [AdminReviewController::class, 'index'])->name('reviews.index');
             Route::patch('ulasan/{review}/terima', [AdminReviewController::class, 'approve'])->name('reviews.approve');
             Route::patch('ulasan/{review}/tolak', [AdminReviewController::class, 'reject'])->name('reviews.reject');
             Route::delete('ulasan/{review}', [AdminReviewController::class, 'destroy'])->name('reviews.destroy');
 
-            // Daftar user baru
+          
             Route::get('user', [AdminUserController::class, 'index'])->name('users.index');
-            
-            // Reservasi meja
+            Route::post('user', [AdminUserController::class, 'store'])->name('users.store');
+            Route::put('user/{user}', [AdminUserController::class, 'update'])->name('users.update');
+            Route::patch('user/{user}/status', [AdminUserController::class, 'toggle'])->name('users.toggle');
+            Route::delete('user/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
+
+          
             Route::get('reservasi', [AdminReservationController::class, 'index'])->name('reservations.index');
             Route::patch('reservasi/{reservation}/konfirmasi', [AdminReservationController::class, 'confirm'])->name('reservations.confirm');
             Route::patch('reservasi/{reservation}/batal', [AdminReservationController::class, 'cancel'])->name('reservations.cancel');
             Route::delete('reservasi/{reservation}', [AdminReservationController::class, 'destroy'])->name('reservations.destroy');
+
+            // Pesanan
+            Route::get('pesanan', [AdminOrderController::class, 'index'])
+                ->name('orders.index');
+
+            Route::get('pesanan/{order}', [AdminOrderController::class, 'show'])
+                ->name('orders.show');
+
+            Route::patch('pesanan/{order}/status', [AdminOrderController::class, 'updateStatus'])
+                ->name('orders.status');
+
+            Route::delete('pesanan/{order}', [AdminOrderController::class, 'destroy'])
+                ->name('orders.destroy');
         });
 });

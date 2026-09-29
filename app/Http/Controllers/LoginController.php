@@ -19,7 +19,8 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials)) {
+        // 'aktif' => true : hanya akun yang aktif yang boleh masuk
+        if (Auth::attempt($credentials + ['aktif' => true])) {
             // Cegah session fixation attack
             $request->session()->regenerate();
 
@@ -30,6 +31,14 @@ class LoginController extends Controller
             }
 
             return redirect('/dashboard')->with('success', 'Login berhasil!');
+        }
+
+        // Gagal masuk. Kalau email & password sebenarnya benar,
+        // berarti akunnya yang dinonaktifkan.
+        if (Auth::validate($credentials)) {
+            return back()->withErrors([
+                'email' => 'Akun kamu sedang dinonaktifkan. Silakan hubungi admin.',
+            ])->onlyInput('email');
         }
 
         return back()->withErrors([

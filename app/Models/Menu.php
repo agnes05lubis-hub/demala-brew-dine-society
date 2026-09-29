@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Menu extends Model
 {
@@ -46,6 +47,13 @@ class Menu extends Model
     // Sort berdasarkan sort_order
     public function scopeSorted($query)
     {
-        return $query->orderBy('sort_order', 'asc')->orderBy('created_at', 'desc');
+        return $query->orderBy('sort_order', 'asc')
+            ->orderBy('created_at', 'desc');
+    }
+
+    // Pesanan yang menggunakan menu ini
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }

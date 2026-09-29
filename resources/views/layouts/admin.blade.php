@@ -6,14 +6,9 @@
 
     <title>@yield('title', 'Admin') — Demala Brew</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-          rel="stylesheet">
-
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap"
-          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
@@ -21,12 +16,13 @@
 <body>
 
 @php
-    $onMenu = request()->routeIs('admin.menu.*');
-    $cat = request('category');
+    $onMenu  = request()->routeIs('admin.menu.*');
+    $cat     = request('category');
 
-    $dashUrl = Route::has('dashboard')
-        ? route('dashboard')
-        : url('/dashboard');
+    $dashUrl = Route::has('dashboard') ? route('dashboard') : url('/dashboard');
+    if (Route::has('admin.dashboard')) {
+        $dashUrl = route('admin.dashboard');
+    }
 @endphp
 
 <!-- =========================================================
@@ -36,222 +32,158 @@
 <aside class="demala-admin-sidebar">
 
     <div class="demala-admin-brand">
-
-        <div class="demala-admin-brand-icon">
-            D
-        </div>
-
+        <div class="demala-admin-brand-icon">D</div>
         <div>
-            <div class="demala-admin-brand-name">
-                Demala Brew
-            </div>
-
-            <span class="demala-admin-brand-sub">
-                Admin Panel
-            </span>
+            <div class="demala-admin-brand-name">Demala Brew</div>
+            <span class="demala-admin-brand-sub">Admin Panel</span>
         </div>
-
     </div>
 
+    {{-- ================= SIDEBAR ADMIN ================= --}}
 
-    <!-- UTAMA -->
+        <div class="demala-admin-section">Utama</div>
 
-    <div class="demala-admin-section">
-        Utama
-    </div>
-
-    <a href="{{ $dashUrl }}"
-       class="demala-admin-link {{ request()->is('dashboard') ? 'active' : '' }}">
-
-        <i class="bi bi-grid-1x2"></i>
-
-        <span>Dashboard</span>
-
-    </a>
-
-
-    <!-- MENU -->
-
-    <div class="demala-admin-section">
-        Kelola Menu
-    </div>
-
-    <a href="{{ route('admin.menu.index') }}"
-       class="demala-admin-link {{ $onMenu && !$cat && !request()->routeIs('admin.menu.create') ? 'active' : '' }}">
-
-        <i class="bi bi-journal-text"></i>
-
-        <span>Semua Menu</span>
-
-        <span class="demala-admin-count">
-            {{ \App\Models\Menu::count() }}
-        </span>
-
-    </a>
-
-
-    <a href="{{ route('admin.menu.index', ['category' => 'Food']) }}"
-       class="demala-admin-link {{ $cat === 'Food' ? 'active' : '' }}">
-
-        <i class="bi bi-egg-fried"></i>
-
-        <span>Food</span>
-
-        <span class="demala-admin-count">
-            {{ \App\Models\Menu::where('category', 'Food')->count() }}
-        </span>
-
-    </a>
-
-
-    <a href="{{ route('admin.menu.index', ['category' => 'Drink']) }}"
-       class="demala-admin-link {{ $cat === 'Drink' ? 'active' : '' }}">
-
-        <i class="bi bi-cup-hot"></i>
-
-        <span>Drink</span>
-
-        <span class="demala-admin-count">
-            {{ \App\Models\Menu::where('category', 'Drink')->count() }}
-        </span>
-
-    </a>
-
-
-    <a href="{{ route('admin.menu.create') }}"
-       class="demala-admin-link {{ request()->routeIs('admin.menu.create') ? 'active' : '' }}">
-
-        <i class="bi bi-plus-circle"></i>
-
-        <span>Tambah Menu</span>
-
-    </a>
-
-
-    @if(Route::has('admin.categories.index'))
-
-        <a href="{{ route('admin.categories.index') }}"
-           class="demala-admin-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
-
-            <i class="bi bi-images"></i>
-
-            <span>Kategori</span>
-
+        <a href="{{ $dashUrl }}"
+           class="demala-admin-link {{ request()->routeIs('dashboard') || request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+            <i class="bi bi-grid-1x2"></i>
+            <span>Dashboard</span>
         </a>
 
-    @endif
 
-        <!-- RESERVASI -->
+        <div class="demala-admin-section">Kelola Menu</div>
 
-    <div class="demala-admin-section">
-        Reservasi
-    </div>
+        <a href="{{ route('admin.menu.index') }}"
+           class="demala-admin-link {{ $onMenu && !$cat && !request()->routeIs('admin.menu.create') ? 'active' : '' }}">
+            <i class="bi bi-journal-text"></i>
+            <span>Semua Menu</span>
+            <span class="demala-admin-count">{{ \App\Models\Menu::count() }}</span>
+        </a>
 
-    <a href="{{ route('admin.reservations.index') }}"
-       class="demala-admin-link {{ request()->routeIs('admin.reservations.*') ? 'active' : '' }}">
+        <a href="{{ route('admin.menu.index', ['category' => 'Food']) }}"
+           class="demala-admin-link {{ $cat === 'Food' ? 'active' : '' }}">
+            <i class="bi bi-egg-fried"></i>
+            <span>Food</span>
+            <span class="demala-admin-count">{{ \App\Models\Menu::where('category', 'Food')->count() }}</span>
+        </a>
 
-        <i class="bi bi-calendar-check"></i>
+        <a href="{{ route('admin.menu.index', ['category' => 'Drink']) }}"
+           class="demala-admin-link {{ $cat === 'Drink' ? 'active' : '' }}">
+            <i class="bi bi-cup-hot"></i>
+            <span>Drink</span>
+            <span class="demala-admin-count">{{ \App\Models\Menu::where('category', 'Drink')->count() }}</span>
+        </a>
 
-        <span>Reservasi Meja</span>
+        <a href="{{ route('admin.menu.create') }}"
+           class="demala-admin-link {{ request()->routeIs('admin.menu.create') ? 'active' : '' }}">
+            <i class="bi bi-plus-circle"></i>
+            <span>Tambah Menu</span>
+        </a>
+
+        @if(Route::has('admin.categories.index'))
+            <a href="{{ route('admin.categories.index') }}"
+               class="demala-admin-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
+                <i class="bi bi-images"></i>
+                <span>Kategori</span>
+            </a>
+        @endif
+
+
+        <div class="demala-admin-section">Operasional</div>
+
+        {{-- Pesanan: aktif otomatis setelah route-nya dibuat (Langkah berikutnya) --}}
+        @if(Route::has('admin.orders.index'))
+            <a href="{{ route('admin.orders.index') }}"
+               class="demala-admin-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
+                <i class="bi bi-receipt"></i>
+                <span>Pesanan</span>
+            </a>
+        @else
+            <span class="demala-admin-link demala-admin-link-soon">
+                <i class="bi bi-receipt"></i><span>Pesanan</span>
+                <span class="demala-admin-count">Segera</span>
+            </span>
+        @endif
 
         @php $pendingReservationCount = \App\Models\Reservation::where('status', 'pending')->count(); @endphp
+        <a href="{{ route('admin.reservations.index') }}"
+           class="demala-admin-link {{ request()->routeIs('admin.reservations.*') ? 'active' : '' }}">
+            <i class="bi bi-calendar-check"></i>
+            <span>Meja & Reservasi</span>
+            @if($pendingReservationCount > 0)
+                <span class="demala-admin-count">{{ $pendingReservationCount }}</span>
+            @endif
+        </a>
 
-        @if($pendingReservationCount > 0)
-            <span class="demala-admin-count">{{ $pendingReservationCount }}</span>
+        @if(Route::has('admin.transactions.index'))
+            <a href="{{ route('admin.transactions.index') }}"
+               class="demala-admin-link {{ request()->routeIs('admin.transactions.*') ? 'active' : '' }}">
+                <i class="bi bi-cash-stack"></i>
+                <span>Transaksi & Keuangan</span>
+            </a>
+        @else
+            <span class="demala-admin-link demala-admin-link-soon">
+                <i class="bi bi-cash-stack"></i><span>Transaksi & Keuangan</span>
+                <span class="demala-admin-count">Segera</span>
+            </span>
         @endif
 
-    </a>
 
-        <!-- ULASAN & USER -->
-
-    <div class="demala-admin-section">
-        Ulasan & User
-    </div>
-
-    <a href="{{ route('admin.reviews.index') }}"
-       class="demala-admin-link {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}">
-
-        <i class="bi bi-chat-heart"></i>
-
-        <span>Ulasan</span>
+        <div class="demala-admin-section">Pengguna</div>
 
         @php $pendingReviewCount = \App\Models\Review::where('status', 'pending')->count(); @endphp
+        <a href="{{ route('admin.reviews.index') }}"
+           class="demala-admin-link {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}">
+            <i class="bi bi-chat-heart"></i>
+            <span>Ulasan</span>
+            @if($pendingReviewCount > 0)
+                <span class="demala-admin-count">{{ $pendingReviewCount }}</span>
+            @endif
+        </a>
 
-        @if($pendingReviewCount > 0)
-            <span class="demala-admin-count">{{ $pendingReviewCount }}</span>
-        @endif
-
-    </a>
-
-    <a href="{{ route('admin.users.index') }}"
-       class="demala-admin-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-
-        <i class="bi bi-people"></i>
-
-        <span>User Baru</span>
-
-    </a>
-
-    <!-- WEBSITE -->
-
-    <div class="demala-admin-section">
-        Website
-    </div>
-
-    <a href="{{ route('menu.index') }}"
-       target="_blank"
-       class="demala-admin-link">
-
-        <i class="bi bi-eye"></i>
-
-        <span>Lihat Menu</span>
-
-    </a>
+        <a href="{{ route('admin.users.index') }}"
+           class="demala-admin-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+            <i class="bi bi-people"></i>
+            <span>Pengguna & Karyawan</span>
+        </a>
 
 
-    <a href="{{ url('/') }}"
-       target="_blank"
-       class="demala-admin-link">
+        <div class="demala-admin-section">Website</div>
 
-        <i class="bi bi-box-arrow-up-right"></i>
+        <a href="{{ route('menu.index') }}" target="_blank" class="demala-admin-link">
+            <i class="bi bi-eye"></i>
+            <span>Lihat Menu</span>
+        </a>
 
-        <span>Lihat Website</span>
+        <a href="{{ url('/') }}" target="_blank" class="demala-admin-link">
+            <i class="bi bi-box-arrow-up-right"></i>
+            <span>Lihat Website</span>
+        </a>
 
-    </a>
 
 
     <!-- USER -->
 
     <div class="demala-admin-bottom">
 
-        <div class="demala-admin-user">
-
+        <a href="{{ route('profile.edit') }}" class="demala-admin-user demala-admin-user-link" title="Edit profil">
             <div class="demala-admin-avatar">
-                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                @if(Auth::user()->photo)
+                    <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Foto profil">
+                @else
+                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                @endif
             </div>
-
             <div>
-                <div class="demala-admin-user-name">
-                    {{ Auth::user()->name }}
-                </div>
-
-                <div class="demala-admin-user-role">
-                    Administrator
-                </div>
+                <div class="demala-admin-user-name">{{ Auth::user()->name }}</div>
+                <div class="demala-admin-user-role">Administrator</div>
             </div>
-
-        </div>
-
+        </a>
 
         <form action="{{ route('logout') }}" method="POST">
             @csrf
-
             <button type="submit" class="demala-admin-logout">
-
                 <i class="bi bi-box-arrow-left me-2"></i>
-
-                Keluar dari Admin
-
+                Keluar
             </button>
         </form>
 
@@ -266,8 +198,6 @@
 
 <div class="demala-admin-main">
 
-    <!-- TOPBAR -->
-
     <header class="demala-admin-topbar">
 
         <h1 class="demala-admin-top-title">
@@ -275,32 +205,31 @@
         </h1>
 
         <div class="demala-admin-top-right">
-
-            <a href="{{ url('/') }}"
-               target="_blank"
-               class="demala-admin-view-site">
-
+            <a href="{{ url('/') }}" target="_blank" class="demala-admin-view-site">
                 Lihat Website
-
                 <i class="bi bi-arrow-up-right"></i>
-
             </a>
 
             <div class="demala-admin-notification">
                 <i class="bi bi-bell"></i>
             </div>
 
+            <a href="{{ route('profile.edit') }}" class="demala-topbar-profile" title="Profil Saya">
+                <span class="demala-topbar-avatar">
+                    @if(Auth::user()->photo)
+                        <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Foto profil">
+                    @else
+                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                    @endif
+                </span>
+                <span class="demala-topbar-name">Profil Saya</span>
+            </a>
         </div>
 
     </header>
 
-
-    <!-- CONTENT -->
-
     <main class="demala-admin-content">
-
         @yield('content')
-
     </main>
 
 </div>

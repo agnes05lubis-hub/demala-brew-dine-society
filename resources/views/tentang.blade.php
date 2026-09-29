@@ -284,58 +284,178 @@
     </div>
 </section>
 
+    {{-- =========================================================
+         ULASAN PELANGGAN
+    ========================================================= --}}
     @php
         $approvedReviews = \App\Models\Review::where('is_approved', true)
+            ->where('status', 'approved')
             ->latest()
             ->get();
+
+        $reviewCount = $approvedReviews->count();
+
+        $averageRating = $reviewCount > 0
+            ? round($approvedReviews->avg('rating'), 1)
+            : 0;
     @endphp
 
-    <section class="dbds-section dbds-section-tight">
+    <section class="dbds-section dbds-review-section">
         <div class="container">
-            <div class="row text-center mb-4">
-                <p class="dbds-eyebrow">Kata Mereka</p>
-                <h2 class="dbds-section-title">Ulasan Pelanggan</h2>
-            </div>
 
-            @if(session('success'))
-                <div class="alert alert-success text-center">{{ session('success') }}</div>
-            @endif
-
-            @if($approvedReviews->count() > 0)
-                <div class="row gy-4 mb-5">
-                    @foreach($approvedReviews as $review)
-                        <div class="col-md-4">
-                            <div class="dbds-value-card dbds-value-card-sm">
-                                <div class="mb-3">
-                                    <i class="bi bi-quote" style="font-size: 1.6rem; color: var(--brass);"></i>
-                                </div>
-                                <p>"{{ $review->message }}"</p>
-                                <h5 class="mt-3 mb-0">{{ $review->name }}</h5>
-                            </div>
-                        </div>
-                    @endforeach
+            <div class="dbds-review-heading">
+                <div>
+                    <p class="dbds-eyebrow mb-2">Kata Mereka</p>
+                    <h2 class="dbds-section-title mb-2">Ulasan Pelanggan</h2>
+                    <p class="dbds-review-subtitle">
+                        Cerita kecil dari mereka yang pernah menikmati waktu di Demala.
+                    </p>
                 </div>
-            @endif
 
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <div class="dbds-form-card">
-                        <h4 class="mb-3">Tulis Ulasan Kamu</h4>
-                        <form action="{{ route('review.store') }}" method="POST">
-                            @csrf
-                            <div class="mb-3">
-                                <label class="form-label">Nama</label>
-                                <input type="text" name="name" class="form-control dbds-input" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Ulasan</label>
-                                <textarea name="message" rows="4" class="form-control dbds-input" required></textarea>
-                            </div>
-                            <button type="submit" class="btn dbds-btn-brass">Kirim Ulasan</button>
-                        </form>
+                <div class="dbds-rating-summary">
+                    <div class="dbds-rating-number">
+                        {{ $averageRating ?: '—' }}
+                    </div>
+
+                    <div>
+                        <div class="dbds-stars" aria-label="Rating {{ $averageRating }} dari 5">
+                            @for($i = 1; $i <= 5; $i++)
+                                <i class="bi bi-star-fill"></i>
+                            @endfor
+                        </div>
+                        <span>{{ $reviewCount }} ulasan</span>
                     </div>
                 </div>
             </div>
+
+            @if(session('success'))
+                <div class="dbds-review-success">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>{{ session('success') }}</span>
+                </div>
+            @endif
+
+            @if($approvedReviews->count() > 0)
+                <div class="dbds-review-grid">
+                    @foreach($approvedReviews->take(3) as $review)
+                        <article class="dbds-review-card">
+                            <div class="dbds-review-card-top">
+                                <div class="dbds-review-avatar">
+                                    {{ strtoupper(substr($review->name, 0, 1)) }}
+                                </div>
+
+                                <div>
+                                    <h5>{{ $review->name }}</h5>
+
+                                    <div class="dbds-review-stars">
+                                        @for($i = 1; $i <= 5; $i++)
+                                            @if($i <= (int) $review->rating)
+                                                <i class="bi bi-star-fill"></i>
+                                            @else
+                                                <i class="bi bi-star"></i>
+                                            @endif
+                                        @endfor
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p class="dbds-review-message">
+                                “{{ $review->message }}”
+                            </p>
+                        </article>
+                    @endforeach
+                </div>
+            @else
+                <div class="dbds-review-empty">
+                    <i class="bi bi-chat-heart"></i>
+                    <p>Belum ada ulasan. Jadilah yang pertama berbagi pengalaman.</p>
+                </div>
+            @endif
+
+            <div class="dbds-review-form-wrap">
+                <div class="dbds-review-form-intro">
+                    <span class="dbds-review-form-icon">
+                        <i class="bi bi-pencil-square"></i>
+                    </span>
+
+                    <div>
+                        <p class="dbds-eyebrow mb-1">Pengalamanmu</p>
+                        <h3>Bagikan Ceritamu</h3>
+                        <p>Suka dengan Demala? Ceritakan pengalamanmu.</p>
+                    </div>
+                </div>
+
+                <form
+                    action="{{ route('review.store') }}"
+                    method="POST"
+                    class="dbds-review-form"
+                >
+                    @csrf
+
+                    <div class="dbds-review-form-row">
+                        <div class="dbds-review-field">
+                            <label for="review-name">Nama</label>
+                            <input
+                                type="text"
+                                id="review-name"
+                                name="name"
+                                class="dbds-review-input"
+                                placeholder="Nama kamu"
+                                value="{{ old('name') }}"
+                                required
+                            >
+                        </div>
+
+                        <div class="dbds-review-field">
+                            <label>Rating</label>
+
+                            <div class="dbds-star-input">
+                                @for($i = 5; $i >= 1; $i--)
+                                    <input
+                                        type="radio"
+                                        id="review-star-{{ $i }}"
+                                        name="rating"
+                                        value="{{ $i }}"
+                                        {{ old('rating', 5) == $i ? 'checked' : '' }}
+                                    >
+                                    <label
+                                        for="review-star-{{ $i }}"
+                                        title="{{ $i }} bintang"
+                                    >
+                                        <i class="bi bi-star-fill"></i>
+                                    </label>
+                                @endfor
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dbds-review-field">
+                        <label for="review-message">Ulasan</label>
+
+                        <textarea
+                            id="review-message"
+                            name="message"
+                            class="dbds-review-input dbds-review-textarea"
+                            rows="3"
+                            placeholder="Bagaimana pengalamanmu di Demala?"
+                            required
+                        >{{ old('message') }}</textarea>
+                    </div>
+
+                    <div class="dbds-review-submit">
+                        <small>
+                            <i class="bi bi-shield-check"></i>
+                            Ulasan akan ditinjau sebelum ditampilkan.
+                        </small>
+
+                        <button type="submit" class="dbds-btn-brass">
+                            Kirim Ulasan
+                            <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
         </div>
     </section>
 
